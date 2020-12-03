@@ -49,7 +49,7 @@ const managerQuestions = [{
 }, {    
     
     type: "input",
-    name: "office number",
+    name: "officeNumber",
     message: "Please enter your office number!"
 },
 ]

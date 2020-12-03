@@ -10,9 +10,10 @@ const outputPath = path.join(OUTPUT_DIR, "team.html");
 
 const render = require("./lib/htmlRenderer");
 // created empty teamArray to hold data
-const teamArray = [];   
+  
 // function to ask the user questions about their position and other information
-function teamProfile(){
+//function teamProfile(){
+ const teamArray = []; 
  const internQuestions = [{
     type: "input",
     name: "name",
@@ -71,7 +72,7 @@ const engineerQuestions = [{
     name: "github",
     message: "Please enter your github username!"
 },
-]};
+];
 //functions for each position to take their answers to questions and push them into the empty teamArray
 function createIntern(){
     inquirer.prompt(internQuestions).then((answers) => {
@@ -100,9 +101,9 @@ function createEngineer(){
 function renderHtml(){
     fs.writeFile(outputPath, render(teamArray), {}, (e) => {
         if (e) {
-            console.log("Error!");
             return;
         }
+        console.log("Team Profile has been generated")
     });
 }    
 // function to add an emplyee object based on the position they hold
@@ -111,7 +112,7 @@ function addEmployeeObj(){
         type: "list",
         name: "position",
         message: "Which employee position would you like to add?",
-        choices: ["Intern", "Manager", "Engineer"]
+        choices: ["Intern", "Manager", "Engineer", "No more positions to add"]
     }]).then((answer) => {
         if (answer.position === 'Intern'){
             createIntern();
@@ -122,11 +123,11 @@ function addEmployeeObj(){
         else if (answer.position === "Engineer"){
             createEngineer();
         }
-        else {
+        else if(answer.position === "No more positions to add") {
             renderHtml();
     }
 })
 }
 // called functions to run the application
 addEmployeeObj();
-teamProfile();
+//teamProfile();

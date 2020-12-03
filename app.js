@@ -128,6 +128,5 @@ function addEmployeeObj(){
     }
 })
 }
-// called functions to run the application
+// called function to run employee objects
 addEmployeeObj();
-//teamProfile();

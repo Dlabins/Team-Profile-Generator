@@ -9,9 +9,9 @@ const OUTPUT_DIR = path.resolve(__dirname, "output");
 const outputPath = path.join(OUTPUT_DIR, "team.html");
 
 const render = require("./lib/htmlRenderer");
-
+// created empty teamArray to hold data
 const teamArray = [];   
-
+// function to ask the user questions about their position and other information
 function teamProfile(){
  const internQuestions = [{
     type: "input",
@@ -72,3 +72,61 @@ const engineerQuestions = [{
     message: "Please enter your github username!"
 },
 ]};
+//functions for each position to take their answers to questions and push them into the empty teamArray
+function createIntern(){
+    inquirer.prompt(internQuestions).then((answers) => {
+        const internEmployee = new Intern(answers.name, answers.id, answers.email, answers.school);
+        teamArray.push(internEmployee);
+        addEmployeeObj();
+    }
+    )};
+
+function createManager(){
+    inquirer.prompt(managerQuestions).then((answers) => {
+        const managerEmployee = new Manager(answers.name, answers.id, answers.email, answers.officeNumber);
+        teamArray.push(managerEmployee);
+        addEmployeeObj();
+    }
+    )};    
+
+function createEngineer(){
+    inquirer.prompt(engineerQuestions).then((answers) => {
+        const engineerEmployee = new Engineer(answers.name, answers.id, answers.email, answers.github);
+        teamArray.push(engineerEmployee);
+        addEmployeeObj();
+    }
+    )};     
+// function to render an html based on the data that was output to the teamArray array
+function renderHtml(){
+    fs.writeFile(outputPath, render(teamArray), {}, (e) => {
+        if (e) {
+            console.log("Error!");
+            return;
+        }
+    });
+}    
+// function to add an emplyee object based on the position they hold
+function addEmployeeObj(){
+    inquirer.prompt([{
+        type: "list",
+        name: "position",
+        message: "Which employee position would you like to add?",
+        choices: ["Intern", "Manager", "Engineer"]
+    }]).then((answer) => {
+        if (answer.position === 'Intern'){
+            createIntern();
+        }
+        else if (answer.position === "Manager"){
+            createManager();
+        }
+        else if (answer.position === "Engineer"){
+            createEngineer();
+        }
+        else {
+            renderHtml();
+    }
+})
+}
+// called functions to run the application
+addEmployeeObj();
+teamProfile();

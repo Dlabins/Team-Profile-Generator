@@ -10,10 +10,8 @@ const outputPath = path.join(OUTPUT_DIR, "team.html");
 
 const render = require("./lib/htmlRenderer");
 // created empty teamArray to hold data
-  
-// function to ask the user questions about their position and other information
-//function teamProfile(){
  const teamArray = []; 
+// array to ask the user questions about their position and other information
  const internQuestions = [{
     type: "input",
     name: "name",
